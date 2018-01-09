@@ -1,0 +1,70 @@
+We have implemented the 60 point project with Preemptive multi-tasking.
+
+In the Fork implementation, we have used Copy-On-Write(COW) to save physical pages.
+
+Our OS provides the following functionalities: 
+	1) pwd - Gives current working directory; 
+		Syntax: pwd
+		
+	2) cd - Changes current working directory; 
+		Syntax: cd <new directory>
+		
+	3) read - Reads specified number of bytes from given filename; 
+		Syntax: read <file name> <bytes to read>
+		
+	4) write - Overwrites specified file with data inputted from terminal;
+		Syntax: write <file name>
+		
+	5) ps - Lists all the processes and their current states run on the OS;
+		Syntax: ps
+		Regarding ZOMBIE process: A ZOMBIE process is created both when a parent dies and the child process exits after the parent process dies and also, when a child 
+		process is called as a background process & no parent waits for its status. 
+		
+	6) clear - Clears the screen;
+		Syntax: clear
+		
+	7) ls - Lists the files and directories present in given directory; Handles multiple arguments;
+		Syntax: ls (Lists all files and directories in current directory)
+		Syntax: ls <any other directory>... (Lists all files and directories in any other directory entered)
+		
+	8) cat - Reads contents of entire file specified; Handles multiple arguments;
+		Syntax: cat <any file(in the same or different working directory)>...
+		
+	9) We have provided a file "test.txt" in rootfs root directory which can be tested for cat as well as read and write functionality.
+		
+	10) echo - Prints given input arguments or environment variables; Handles multiple arguments;
+		Our OS has the following Environment variables already set which can be viewed using echo 
+		(these environment variables can be changed or set since we have not implemented setenv):
+			$HOME=/
+			$PATH=/
+			$USER=root
+			$PS1=>>>
+		Syntax: echo <any random value or environment variable>
+		
+	11) kill -9 - Kills process identified by PID;
+		Syntax: kill -9 <Process ID>
+		
+	12) sleep - Puts the process in sleep for specified time given in seconds and context switches to another ongoing process;
+		Syntax: sleep <sleep time in seconds>
+		
+	13) Handling for shebang files: By giving ./<file name>, the terminal reads and executes all of the commands within the file, 
+		provided the file starts with !#
+		Syntax: ./<file name or path>
+		We have provided a file "scripts" in rootfs root directory which contains a set of commands which can be tested for shebang functionality.
+
+	14) test1 command - We have implemented pre-emptive context switching; to test this we have created an executable binary called "preemptiveTest1". 
+		In this test, we print a value and context switch. This binary keeps getting executed without calling a yield from sbush. This can be further tested
+		by calling sleep after test1 has been called because sleep process keeps yielding and test1 prints at faster rate for the sleep duration
+		of the other process. To kill test1, call ps, note the pid of preemptiveTest1 and call kill -9 <PID>.
+
+	15) test2 command: For scanf, we have used locks such that only one process can read the keyboard input at one time; 
+		so in case of pre-emptive, if multiple processes are trying to read from keyboard, only one process will have access to keyboard
+		and other processes will keep context switching until the locking process gives up control. We have provided an executable binary
+		"preemptiveTest2" to test this functionality; this test can be performed by calling test2; depending on the clock state, either sbush or test2
+		will take control of the scanf functionality depending on whichever was running at that moment; the second process will keep context switching
+		until the first process releases the lock for scanf. After inputting the values, it might appear the terminal has gotten stuck but it is because
+		the prompt had already been printed.
+	
+	16) & - Creates a background process
+
+	17) test3 command - We have created an executable binary which tests divide-by-zero exception
