@@ -1,0 +1,15 @@
+#!sbush(or anything else for that matter; nothing on this line is read after #!)
+
+pwd
+ls
+cd bin
+ls
+cd ../lib
+ls
+pwd
+cd ../bin/bin2
+pwd
+ls ../../lib
+cd ../bin2/../bin2/../..
+pwd
+ls ./bin
