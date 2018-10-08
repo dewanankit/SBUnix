@@ -1,8 +1,4 @@
-We have implemented the 60 point project with Preemptive multi-tasking.
-
-In the Fork implementation, we have used Copy-On-Write(COW) to save physical pages.
-
-Our OS provides the following functionalities: 
+My OS provides the following functionalities: 
 	1) pwd - Gives current working directory; 
 		Syntax: pwd
 		
